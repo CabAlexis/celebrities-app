@@ -1,10 +1,7 @@
 
 # Profile Browser
 
-Create profiles
-
-
-
+A little app to create star profiles, so you'll never forget which series you saw that famous star in!
 
 
 ## Installation
@@ -18,8 +15,16 @@ Install [Docker](https://www.docker.com/products/docker-desktop/)
 
     cp .env.example .env
 ```
-Insérer les données .env fournies
+Use the .env data (cf. mail)
 
+
+Optional (set alias for sail): 
+```bash
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
+
+(if alias is set use sail instead of ./vendor/bin/sail
+)
 ```bash
     ./vendor/bin/sail up -d
     ./vendor/bin/sail php artisan key:generate
@@ -30,7 +35,7 @@ Insérer les données .env fournies
     ./vendor/bin/sail npm run dev
 ```
 
-### Generate data
+### Generate fake data
 
 ```bash
     ./vendor/bin/sail php artisan tinker
