@@ -4,7 +4,9 @@ namespace Database\Factories;
 
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileFactory extends Factory
 {
@@ -22,11 +24,14 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
+        $image = fake()->image();
+        $imageFile = new File($image);
+
 
         return [
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
-            'image' => fake()->image('public/storage/images',640,480, null, false),
+            'image' => Storage::put('public/images', $imageFile),
             'description' => $this->faker->text
         ];
     }
