@@ -24,14 +24,10 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
-        $image = fake()->image();
-        $imageFile = new File($image);
-
-
         return [
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
-            'image' => Storage::put('public/images', $imageFile),
+            fake()->image(storage_path('images'),640,480, null, false),
             'description' => $this->faker->text
         ];
     }
