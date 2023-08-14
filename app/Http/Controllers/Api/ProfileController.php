@@ -25,20 +25,15 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function show(Profile $profile)
-    {
-        //
-    }
-
     public function update(ProfileRequest $request, Profile $profile)
     {
         $validatedData = $request->validated();
 
-        $updatedProfile = $profile->fill($validatedData)->save();
+        $profile->fill($validatedData)->save();
 
         return response()->json([
             'message' => 'Profil modifié avec succés',
-            'profile' => $updatedProfile
+            'profile' => $profile
         ]);
     }
 
