@@ -31,7 +31,7 @@
             @save="createNewProfile" @cancel="addProfile = false" :errors="errors" class="bg-white rounded-lg p-8 w-5/6"></upsert-form>
     </div>
 </template>
-  
+
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
