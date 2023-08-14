@@ -27,6 +27,6 @@ class Profile extends Model
 
     public function getImageUrlAttribute()
     {
-        return 'storage/images/' . $this->image;
+        return Storage::url($this->image);
     }
 }
