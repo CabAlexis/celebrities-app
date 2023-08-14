@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UploadImageRequest;
+use Illuminate\Http\JsonResponse;
 
 class ImageController extends Controller
 {
-    public function uploadImage(Request $request)
+    public function uploadImage(UploadImageRequest $request) :JsonResponse
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048'
-        ]);
+        $vdata = $request->validated();
 
-        $fileName = time() . '.' . $request->image->extension();
-        $request->image->storeAs('public/images', $fileName);
+        $fileName = time() . '.' . $vdata['image']->extension();
+        $vdata['image']->storeAs('public/images', $fileName);
         $responseData = ['filename' => $fileName];
 
         return response()->json($responseData);
