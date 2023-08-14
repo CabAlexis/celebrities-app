@@ -24,7 +24,7 @@ class CreateRequest extends FormRequest
         return [
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'file'],
+            'image' => ['required', 'file', 'mimes:jpeg,png,jpg,svg'],
             'description' => ['required', 'string'],
         ];
     }
