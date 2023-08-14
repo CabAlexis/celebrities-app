@@ -74,8 +74,8 @@ const errors = ref({});
 
 const editProfile = async (profile) => {
     try {
-        await axios.put('/api/profiles/' + profile.id, profile);
-        selectedProfile.value = profile;
+        const editedProfile = await axios.put('/api/profiles/' + profile.id, profile);
+        selectedProfile.value = editedProfile.data.profile;
         getProfiles();
     } catch (error) {
         errors.value = error.response.data.errors;
