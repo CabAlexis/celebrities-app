@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
         return [
             'firstname' => ['required', 'string', 'max:255'],
             'lastname' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'file', 'mimes:jpeg,png,jpg,svg'],
+            'image' => ['nullable', 'file'],
             'description' => ['required', 'string'],
         ];
     }
