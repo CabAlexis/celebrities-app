@@ -18,4 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('profiles', ProfileController::class);
 
-Route::post('upload-image', [ImageController::class, 'uploadImage']);
+Route::post('upload-image', [ImageController::class, 'HandleImage']);

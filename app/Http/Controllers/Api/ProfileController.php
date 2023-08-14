@@ -3,22 +3,27 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\Profile\CreateRequest;
+use App\Http\Requests\Profile\UpdateRequest;
 use App\Models\Profile;
-use Illuminate\Http\Request;
+use App\Services\HandleImage;
 
 class ProfileController extends Controller
 {
     public function index()
     {
-        return response()->json(Profile::all());
+        return response()->json(Profile::orderBy('lastname')->get());
     }
 
-    public function store(ProfileRequest $request)
+    public function store(CreateRequest $request)
     {
         $validatedData = $request->validated();
 
+        $image = HandleImage::handle($validatedData['image']);
+        $validatedData['image'] = $image;
+
         $profile = Profile::create($validatedData);
+
         return response()->json([
             'message' => 'Profil créé avec succés',
             'profile' => $profile
@@ -30,20 +35,27 @@ class ProfileController extends Controller
         //
     }
 
-    public function update(ProfileRequest $request, Profile $profile)
+    public function update(UpdateRequest $request, Profile $profile)
     {
         $validatedData = $request->validated();
 
-        $updatedProfile = $profile->fill($validatedData)->save();
+        if($request->has('image')) {
+                HandleImage::remove($profile->image);
+                $newImage = HandleImage::handle($validatedData['image']);
+                $validatedData['image'] = $newImage;
+        }
+
+        $profile->fill($validatedData)->save();
 
         return response()->json([
             'message' => 'Profil modifié avec succés',
-            'profile' => $updatedProfile
+            'profile' => $profile
         ]);
     }
 
     public function destroy(Profile $profile)
     {
+        HandleImage::remove($profile->image);
         $profile->delete();
         return response()->json([], 204);
     }
