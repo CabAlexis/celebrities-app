@@ -25,6 +25,7 @@ class ProfileController extends Controller
         $validatedData = $request->validated();
 
         $image = $this->imageService->store($validatedData['image']);
+
         $validatedData['image'] = $image;
 
         $profile = Profile::create($validatedData);
