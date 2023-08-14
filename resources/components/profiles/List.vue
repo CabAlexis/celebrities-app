@@ -28,7 +28,7 @@
     <div v-if="addProfile" @close="cancelEditProfile"
         class="fixed inset-0 flex items-center justify-center z-10 bg-opacity-75 bg-gray-900">
         <upsert-form :profile="createProfile" form-title="Ajouter un profil" submit-button-text="Ajouter"
-            @save="createNewProfile" @cancel="addProfile = false" class="bg-white rounded-lg p-8 w-5/6"></upsert-form>
+            @save="createNewProfile" @cancel="addProfile = false" :errors="errors" class="bg-white rounded-lg p-8 w-5/6"></upsert-form>
     </div>
 </template>
   
@@ -71,6 +71,8 @@ const getProfiles = async () => {
     }
 };
 
+const errors = ref({});
+
 const editProfile = async (profile) => {
     try {
         const editFormData = new FormData();
@@ -86,6 +88,7 @@ const editProfile = async (profile) => {
         getProfiles();
         selectedProfile.value = editedProfile.data.profile;
     } catch (error) {
+        errors.value = error.response.data.errors;
         console.error(error);
     }
 };
@@ -103,6 +106,7 @@ const createNewProfile = async (createProfile) => {
         resetCreatedProfile();
         getProfiles();
     } catch (error) {
+        errors.value = error.response.data.errors;
         console.error(error);
     }
 };

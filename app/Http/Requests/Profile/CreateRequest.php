@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 
 class CreateRequest extends FormRequest
 {
@@ -26,6 +27,21 @@ class CreateRequest extends FormRequest
             'lastname' => ['required', 'string', 'max:255'],
             'image' => ['required', 'file', 'mimes:jpeg,png,jpg,svg'],
             'description' => ['required', 'string'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'firstname.required' => 'Le prénom est requis.',
+            'lastname.required' => 'Le nom est requis.',
+            'description.required' => 'La description est requise.',
+            'image.required' => 'L\'image est requise.',
         ];
     }
 }
