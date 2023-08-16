@@ -6,20 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\CreateRequest;
 use App\Http\Requests\Profile\UpdateRequest;
 use App\Models\Profile;
-use App\Services\HandleImage;
+use App\Services\ImageService;
+use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function __construct(private readonly ImageService $imageService)
+    {
+    }
+
+    public function index() :JsonResponse
     {
         return response()->json(Profile::orderBy('lastname')->get());
     }
 
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request) :JsonResponse
     {
         $validatedData = $request->validated();
 
-        $image = HandleImage::handle($validatedData['image']);
+        $image = $this->imageService->store($validatedData['image']);
         $validatedData['image'] = $image;
 
         $profile = Profile::create($validatedData);
@@ -30,18 +35,13 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function show(Profile $profile)
-    {
-        //
-    }
-
-    public function update(UpdateRequest $request, Profile $profile)
+    public function update(UpdateRequest $request, Profile $profile) :JsonResponse
     {
         $validatedData = $request->validated();
 
         if($request->has('image')) {
-                HandleImage::remove($profile->image);
-                $newImage = HandleImage::handle($validatedData['image']);
+                $this->imageService->remove($profile->image);
+                $newImage = $this->imageService->store($validatedData['image']);
                 $validatedData['image'] = $newImage;
         }
 
@@ -53,9 +53,9 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function destroy(Profile $profile)
+    public function destroy(Profile $profile) :JsonResponse
     {
-        HandleImage::remove($profile->image);
+        $this->imageService->remove($profile->image);
         $profile->delete();
         return response()->json([], 204);
     }

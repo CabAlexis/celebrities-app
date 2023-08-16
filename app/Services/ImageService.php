@@ -4,9 +4,9 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
 
-class HandleImage {
+class ImageService {
 
-    public static function handle($file) :String
+    public static function store($file) :String
     {
         $filename = $file->hashName();
         $file->storeAs('public/images', $filename);
