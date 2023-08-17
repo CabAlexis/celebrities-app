@@ -125,6 +125,3 @@ onMounted(() => {
     getProfiles();
 });
 </script>
-  
-<style scoped>
-</style>
