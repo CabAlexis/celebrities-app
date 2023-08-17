@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Profile extends Model
 {
@@ -20,12 +18,12 @@ class Profile extends Model
 
     protected $appends = ['fullname', 'image_url'];
 
-    public function getFullnameAttribute()
+    public function getFullnameAttribute() :string
     {
         return $this->getAttribute('firstname') . ' ' . $this->getAttribute('lastname');
     }
 
-    public function getImageUrlAttribute()
+    public function getImageUrlAttribute() :string
     {
         return asset("storage/images/{$this->image}");
     }
