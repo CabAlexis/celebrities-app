@@ -7,51 +7,32 @@ use App\Http\Requests\Profile\CreateRequest;
 use App\Http\Requests\Profile\UpdateRequest;
 use App\Models\Profile;
 use App\Services\ImageService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 
 class ProfileController extends Controller
 {
-    public function __construct(private readonly ImageService $imageService)
+    public function __construct(
+        private readonly ImageService $imageService
+        )
     {
     }
 
-    public function index(): JsonResponse
+    public function index(): Collection
     {
-        return response()->json(Profile::orderBy('lastname')->get());
+        return Profile::orderBy('lastname')->get();
     }
 
-    public function store(CreateRequest $request): JsonResponse
+    public function store(CreateRequest $request): Profile
     {
-        $validatedData = $request->validated();
-
-        $image = $this->imageService->store($validatedData['image']);
-
-        $validatedData['image'] = $image;
-
-        $profile = Profile::create($validatedData);
-
-        return response()->json([
-            'message' => 'Profil créé avec succés',
-            'profile' => $profile
-        ]);
+       return Profile::create($request->validated());
     }
 
-    public function update(UpdateRequest $request, Profile $profile): JsonResponse
+    public function update(UpdateRequest $request, Profile $profile): Profile
     {
-        $validatedData = $request->validated();
+        $profile->fill($request->validated())->save();
 
-        if ($request->has('image')) {
-            $this->imageService->remove($profile->image);
-            $newImage = $this->imageService->store($validatedData['image']);
-            $validatedData['image'] = $newImage;
-        }
-
-        $profile->fill($validatedData)->save();
-
-        return response()->json([
-            'message' => 'Profil modifié avec succés',
-            'profile' => $profile
-        ]);
+        return $profile;
     }
 
     public function destroy(Profile $profile): JsonResponse

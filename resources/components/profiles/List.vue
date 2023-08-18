@@ -89,9 +89,8 @@ const editProfile = async (profile) => {
         editFormData.append('description', profile.description);
         editFormData.append('_method', 'PUT');
         const editedProfile = await axios.post('/api/profiles/' + profile.id, editFormData);
-        console.log(editedProfile);
         getProfiles();
-        selectedProfile.value = editedProfile.data.profile;
+        selectedProfile.value = editedProfile.data;
     } catch (error) {
         errors.value = error.response.data.errors;
         console.error(error);
@@ -106,7 +105,7 @@ const createNewProfile = async (createProfile) => {
         createFormData.append('image', createProfile.image);
         createFormData.append('description', createProfile.description);
         const justCreatedProfile = await axios.post('/api/profiles/', createFormData);
-        selectedProfile.value = justCreatedProfile.data.profile;
+        selectedProfile.value = justCreatedProfile.data;
         addProfile.value = false;
         resetCreatedProfile();
         getProfiles();
