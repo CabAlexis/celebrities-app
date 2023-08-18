@@ -28,7 +28,7 @@
     <div v-if="addProfile" @close="cancelEditProfile"
         class="fixed inset-0 flex items-center justify-center z-10 bg-opacity-75 bg-gray-900">
         <upsert-form :profile="createProfile" form-title="Ajouter un profil" submit-button-text="Ajouter"
-            @save="createNewProfile" @cancel="addProfile = false" :errors="errors" class="bg-white rounded-lg p-8 w-5/6"></upsert-form>
+            @save="createNewProfile" @cancel="cancelAddProfile" :errors="errors" class="bg-white rounded-lg p-8 w-5/6"></upsert-form>
     </div>
 </template>
 
@@ -42,19 +42,24 @@ const profiles = ref([]);
 const selectedProfile = ref(null);
 
 const createProfile = ref({
-    firstname: null,
-    lastname: null,
-    image: null,
-    description: null
+    firstname: '',
+    lastname: '',
+    image: '',
+    description: ''
 })
 
 const resetCreatedProfile = () => {
     createProfile.value = {
-        firstname: null,
-        lastname: null,
-        image: null,
-        description: null
+        firstname: '',
+        lastname: '',
+        image: '',
+        description: ''
     }
+}
+
+const cancelAddProfile = () => {
+    addProfile.value = false;
+    resetCreatedProfile();
 }
 const addProfile = ref(false);
 

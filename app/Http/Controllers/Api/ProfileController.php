@@ -15,12 +15,12 @@ class ProfileController extends Controller
     {
     }
 
-    public function index() :JsonResponse
+    public function index(): JsonResponse
     {
         return response()->json(Profile::orderBy('lastname')->get());
     }
 
-    public function store(CreateRequest $request) :JsonResponse
+    public function store(CreateRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
 
@@ -36,14 +36,14 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update(UpdateRequest $request, Profile $profile) :JsonResponse
+    public function update(UpdateRequest $request, Profile $profile): JsonResponse
     {
         $validatedData = $request->validated();
 
-        if($request->has('image')) {
-                $this->imageService->remove($profile->image);
-                $newImage = $this->imageService->store($validatedData['image']);
-                $validatedData['image'] = $newImage;
+        if ($request->has('image')) {
+            $this->imageService->remove($profile->image);
+            $newImage = $this->imageService->store($validatedData['image']);
+            $validatedData['image'] = $newImage;
         }
 
         $profile->fill($validatedData)->save();
@@ -54,7 +54,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function destroy(Profile $profile) :JsonResponse
+    public function destroy(Profile $profile): JsonResponse
     {
         $this->imageService->remove($profile->image);
         $profile->delete();

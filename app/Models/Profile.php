@@ -20,7 +20,7 @@ class Profile extends Model
 
     public function getFullnameAttribute() :string
     {
-        return $this->getAttribute('firstname') . ' ' . $this->getAttribute('lastname');
+        return $this->firstname . ' ' . $this->lastname;
     }
 
     public function getImageUrlAttribute() :string
