@@ -12,18 +12,22 @@ class ProfileObserver
         private readonly ImageService $imageService
     ) {
     }
-    public function creating(Profile $profile)
+    public function creating(Profile $profile): void
     {
         $this->imageService->store($profile->image);
         $profile->image = $profile->image->hashName();
     }
 
-    public function saving(Profile $profile)
+    public function saving(Profile $profile): void
     {
         if ($profile->image instanceof UploadedFile) {
             $this->imageService->remove($profile->getOriginal('image'));
-            $this->imageService->store($profile->image);
-            $profile->image = $profile->image->hashName();
+            $this->creating($profile);
         }
+    }
+
+    public function deleting(Profile $profile): void
+    {
+        $this->imageService->remove($profile->image);
     }
 }

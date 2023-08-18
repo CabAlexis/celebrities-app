@@ -37,7 +37,6 @@ class ProfileController extends Controller
 
     public function destroy(Profile $profile): JsonResponse
     {
-        $this->imageService->remove($profile->image);
         $profile->delete();
         return response()->json([], 204);
     }

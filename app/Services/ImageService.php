@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Profile;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
