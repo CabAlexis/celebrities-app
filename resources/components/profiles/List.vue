@@ -1,9 +1,10 @@
 <template>
     <div class="flex flex-col md:flex-row">
         <div class="w-full md:w-1/3 flex flex-col items-center">
-            <button v-if="profiles.length > 0" v-for="profile in profiles" :key="profile.id" class="name-button w-2/3"
-                :class="{
-                    'selected': selectedProfile.id === profile.id
+            <button v-if="profiles.length > 0" v-for="profile in profiles" :key="profile.id"
+                class="py-2 px-4 mb-2 rounded w-2/3" :class="{
+                    'bg-gray-300 text-gray-700': selectedProfile.id !== profile.id,
+                    'bg-cyan-900 text-white': selectedProfile.id === profile.id
                 }" @click="selectProfile(profile)">
                 {{ profile.fullname }}
             </button>
@@ -30,7 +31,7 @@
             @save="createNewProfile" @cancel="addProfile = false" :errors="errors" class="bg-white rounded-lg p-8 w-5/6"></upsert-form>
     </div>
 </template>
-  
+
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
@@ -74,9 +75,18 @@ const errors = ref({});
 
 const editProfile = async (profile) => {
     try {
-        const editedProfile = await axios.put('/api/profiles/' + profile.id, profile);
-        selectedProfile.value = editedProfile.data.profile;
+        const editFormData = new FormData();
+        editFormData.append('firstname', profile.firstname);
+        editFormData.append('lastname', profile.lastname);
+        if (profile.image instanceof File) {
+            editFormData.append('image', profile.image);
+        }
+        editFormData.append('description', profile.description);
+        editFormData.append('_method', 'PUT');
+        const editedProfile = await axios.post('/api/profiles/' + profile.id, editFormData);
+        console.log(editedProfile);
         getProfiles();
+        selectedProfile.value = editedProfile.data.profile;
     } catch (error) {
         errors.value = error.response.data.errors;
         console.error(error);
@@ -85,7 +95,12 @@ const editProfile = async (profile) => {
 
 const createNewProfile = async (createProfile) => {
     try {
-        const justCreatedProfile = await axios.post('/api/profiles/', createProfile);
+        const createFormData = new FormData();
+        createFormData.append('firstname', createProfile.firstname);
+        createFormData.append('lastname', createProfile.lastname);
+        createFormData.append('image', createProfile.image);
+        createFormData.append('description', createProfile.description);
+        const justCreatedProfile = await axios.post('/api/profiles/', createFormData);
         selectedProfile.value = justCreatedProfile.data.profile;
         addProfile.value = false;
         resetCreatedProfile();
@@ -114,13 +129,3 @@ onMounted(() => {
     getProfiles();
 });
 </script>
-  
-<style scoped>
-.name-button {
-    @apply bg-gray-300 text-gray-700 py-2 px-4 mb-2 rounded;
-}
-
-.name-button.selected {
-    @apply bg-cyan-900 text-white;
-}
-</style>

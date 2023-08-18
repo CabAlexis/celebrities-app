@@ -69,20 +69,9 @@ const props = defineProps({
 
 const downloadImage = async (event) => {
     try {
-        const image = event.target.files[0];
+        const image = event.target.files[0];;
 
-        const formData = new FormData();
-        formData.append('image', image);
-
-        const response = await axios.post('/api/upload-image', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        const filename = response.data.filename;
-
-        props.profile.image = filename;
+        props.profile.image = image;
     } catch (error) {
         console.error(error);
     }

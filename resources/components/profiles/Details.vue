@@ -53,7 +53,6 @@ const showConfirmationModal = ref(false);
 const emits = defineEmits(['delete-confirmed', 'edit-profile'])
 
 const confirmDelete = () => {
-    // Émettre l'événement personnalisé 'delete-confirmed' avec les données nécessaires
     const profileId = props.profile.id;
     emits('delete-confirmed', profileId);
     showConfirmationModal.value = false;
