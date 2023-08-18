@@ -48,6 +48,8 @@ const props = defineProps({
     }
 })
 
+const originalProfile = ref({ ...props.profile });
+
 const showConfirmationModal = ref(false);
 
 const emits = defineEmits(['delete-confirmed', 'edit-profile'])
@@ -67,6 +69,7 @@ const saveEditedProfile = () => {
 };
 
 const cancelEditProfile = () => {
+    Object.assign(props.profile, originalProfile.value);
     isEditing.value = false;
 };
 

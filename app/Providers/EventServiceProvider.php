@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Profile;
+use App\Observers\ProfileObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +29,15 @@ class EventServiceProvider extends ServiceProvider
     {
         //
     }
+
+    /**
+     * The model observers for your application.
+     *
+     * @var array
+     */
+    protected $observers = [
+        Profile::class => [ProfileObserver::class],
+    ];
 
     /**
      * Determine if events and listeners should be automatically discovered.
