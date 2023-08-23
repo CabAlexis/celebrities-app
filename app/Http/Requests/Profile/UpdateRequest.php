@@ -41,7 +41,6 @@ class UpdateRequest extends FormRequest
             'firstname.required' => 'Le prénom est requis.',
             'lastname.required' => 'Le nom est requis.',
             'description.required' => 'La description est requise.',
-            'image.required' => 'L\'image est requise.',
         ];
     }
 }
