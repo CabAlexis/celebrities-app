@@ -1,10 +1,10 @@
 <template>
   <div class="mb-4">
-    <label class="block mb-2" :for="forValue">{{ label }}</label>
-    <textarea v-if="typeValue === 'textarea'" :value="modelValue" :id="id" :class="inputClass" @input="handleInput"></textarea>
-    <input v-else-if="typeValue === 'file'" :id="id" type="file" accept="image/*" :class="inputClass"
+    <label class="block mb-2" :for="forAndId">{{ label }}</label>
+    <textarea v-if="type === 'textarea'" :value="modelValue" :id="forAndId" :class="inputClass" @input="handleInput"></textarea>
+    <input v-else-if="type === 'file'" :id="forAndId" type="file" accept="image/*" :class="inputClass"
       @change="handleFileChange" />
-    <input v-else :value="modelValue" :id="id" :type="typeValue" :class="inputClass" @input="handleInput" />
+    <input v-else :value="modelValue" :id="forAndId" :type="type" :class="inputClass" @input="handleInput" />
   </div>
 </template>
   
@@ -17,15 +17,11 @@ const props = defineProps({
     required: false,
     default: null,
   },
-  id: {
+  forAndId: {
     type: String,
     required: true,
   },
-  forValue: {
-    type: String,
-    required: true,
-  },
-  typeValue: {
+  type: {
     type: String,
     required: true,
   },
@@ -40,7 +36,7 @@ const emits = defineEmits(['update:modelValue', 'fileChanged']);
 const inputClass = computed(() => {
   let classList = 'w-full p-2 border border-gray-300 rounded';
 
-  if (props.typeValue === 'textarea') {
+  if (props.type === 'textarea') {
     classList += ' h-32';
   }
 
