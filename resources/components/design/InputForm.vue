@@ -1,10 +1,10 @@
 <template>
   <div class="mb-4">
-    <label class="block mb-2" :for="forAndId">{{ label }}</label>
-    <textarea v-if="type === 'textarea'" :value="modelValue" :id="forAndId" :class="inputClass" @input="handleInput"></textarea>
-    <input v-else-if="type === 'file'" :id="forAndId" type="file" accept="image/*" :class="inputClass"
+    <label class="block mb-2" :for="name">{{ label }}</label>
+    <textarea v-if="type === 'textarea'" :value="modelValue" :id="name" :class="inputClass" @input="handleInput"></textarea>
+    <input v-else-if="type === 'file'" :id="name" type="file" accept="image/*" :class="inputClass"
       @change="handleFileChange" />
-    <input v-else :value="modelValue" :id="forAndId" :type="type" :class="inputClass" @input="handleInput" />
+    <input v-else :value="modelValue" :id="name" :type="type" :class="inputClass" @input="handleInput" />
   </div>
 </template>
   
@@ -17,7 +17,7 @@ const props = defineProps({
     required: false,
     default: null,
   },
-  forAndId: {
+  name: {
     type: String,
     required: true,
   },

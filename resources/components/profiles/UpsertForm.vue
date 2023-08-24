@@ -3,23 +3,23 @@
         <h3 class="text-lg font-bold mb-4">{{ formTitle }}</h3>
         <form @submit.prevent="saveProfile">
             <div class="mb-4">
-                <InputForm for-and-id="firstname" label="Prénom" v-model="profile.firstname"
+                <InputForm name="firstname" label="Prénom" v-model="profile.firstname"
                     type="text" />
                 <Error v-if="errors.firstname" :error="errors.firstname[0]" />
             </div>
 
             <div class="mb-4">
-                <InputForm for-and-id="lastname" label="Nom" v-model="profile.lastname" type="text" />
+                <InputForm name="lastname" label="Nom" v-model="profile.lastname" type="text" />
                 <Error v-if="errors.lastname" :error="errors.lastname[0]" />
             </div>
 
             <div class="mb-4">
-                <InputForm for-and-id="image" label="Image" @fileChanged="downloadImage" type="file" />
+                <InputForm name="image" label="Image" @fileChanged="downloadImage" type="file" />
                 <Error v-if="errors.image" :error="errors.image[0]" />
             </div>
 
             <div class="mb-4">
-                <InputForm for-and-id="description" label="Description" v-model="profile.description"
+                <InputForm name="description" label="Description" v-model="profile.description"
                     type="textarea" />
                 <Error v-if="errors.description" :error="errors.description[0]" />
             </div>
@@ -72,7 +72,6 @@ const downloadImage = async (file) => {
 const emits = defineEmits(['save', 'cancel']);
 
 const saveProfile = () => {
-    console.log(props.profile)
     emits('save', props.profile)
 }
 const cancelForm = () => {
