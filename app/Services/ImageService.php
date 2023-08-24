@@ -2,20 +2,19 @@
 
 namespace App\Services;
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class ImageService {
+class ImageService
+{
 
-    public function store($file) :string
+    public function store(UploadedFile $file): void
     {
-        $filename = $file->hashName();
-        $file->storeAs('public/images', $filename);
-    
-        return $filename;
+        $file->storeAs('public/images', $file->hashName());
     }
 
-    public function remove($filename) :void
+    public function remove(string $filename): void
     {
-        Storage::delete('public/images/' . $filename);   
+        Storage::delete('public/images/' . $filename);
     }
 }
