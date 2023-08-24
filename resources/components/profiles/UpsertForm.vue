@@ -3,24 +3,24 @@
         <h3 class="text-lg font-bold mb-4">{{ formTitle }}</h3>
         <form @submit.prevent="saveProfile">
             <div class="mb-4">
-                <InputForm for-value="firstname" label="Prénom" v-model="profile.firstname" id="firstname"
-                    type-value="text" />
+                <InputForm for-and-id="firstname" label="Prénom" v-model="profile.firstname"
+                    type="text" />
                 <Error v-if="errors.firstname" :error="errors.firstname[0]" />
             </div>
 
             <div class="mb-4">
-                <InputForm for-value="lastname" label="Nom" v-model="profile.lastname" id="lastname" type-value="text" />
+                <InputForm for-and-id="lastname" label="Nom" v-model="profile.lastname" type="text" />
                 <Error v-if="errors.lastname" :error="errors.lastname[0]" />
             </div>
 
             <div class="mb-4">
-                <InputForm for-value="image" label="Image" @fileChanged="downloadImage" id="image" type-value="file" />
+                <InputForm for-and-id="image" label="Image" @fileChanged="downloadImage" type="file" />
                 <Error v-if="errors.image" :error="errors.image[0]" />
             </div>
 
             <div class="mb-4">
-                <InputForm for-value="description" label="Description" v-model="profile.description" id="description"
-                    type-value="textarea" />
+                <InputForm for-and-id="description" label="Description" v-model="profile.description"
+                    type="textarea" />
                 <Error v-if="errors.description" :error="errors.description[0]" />
             </div>
 
