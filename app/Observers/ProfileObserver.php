@@ -18,7 +18,7 @@ class ProfileObserver
         $profile->image = $profile->image->hashName();
     }
 
-    public function saving(Profile $profile): void
+    public function updating(Profile $profile): void
     {
         if ($profile->image instanceof UploadedFile) {
             $this->imageService->remove($profile->getOriginal('image'));
